@@ -1,5 +1,4 @@
-# 构建阶段：alpine + musl 编译
-FROM rust:1.85-alpine AS builder
+FROM rust:1.90-alpine AS builder
 
 RUN apk add --no-cache musl-dev
 
@@ -13,9 +12,7 @@ COPY src ./src
 RUN touch src/main.rs && \
     cargo build --release --features server
 
-# 运行阶段：alpine
 FROM alpine:3.20
-
 RUN apk add --no-cache ca-certificates tzdata
 
 WORKDIR /app
